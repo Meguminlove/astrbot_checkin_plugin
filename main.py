@@ -9,7 +9,7 @@ from typing import Dict, Any
 logger = logging.getLogger("CheckInPlugin")
 
 # 数据存储路径
-DATA_DIR = os.path.join("data", "plugins", "checkin")
+DATA_DIR = os.path.join("data", "plugins", "astrbot_checkin_plugin")
 os.makedirs(DATA_DIR, exist_ok=True)
 DATA_FILE = os.path.join(DATA_DIR, "checkin_data.json")
 
