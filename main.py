@@ -97,7 +97,7 @@ def _generate_rewards() -> int:
     """生成1-30随机星之碎片"""
     return random.randint(1, 30)
 
-@register("签到插件", "腾讯元宝&Meguminlove", "多维度排行榜签到系统", "2.0.2", "https://github.com/Meguminlove/astrbot_checkin_plugin")
+@register("签到插件", "Kimi&Meguminlove", "多维度排行榜签到系统", "1.0.2", "https://github.com/Meguminlove/astrbot_checkin_plugin")
 class CheckInPlugin(Star):
     def __init__(self, context: Context):
         super().__init__(context)
