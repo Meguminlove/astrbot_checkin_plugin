@@ -105,7 +105,7 @@ class CheckInPlugin(Star):
 
     @command("签到", alias=["打卡"])
     async def check_in(self, event: AstrMessageEvent):
-        """修复后的签到逻辑"""
+        """每日签到"""
         try:
             ctx_id = _get_context_id(event)
             user_id = event.get_sender_id()
@@ -124,7 +124,7 @@ class CheckInPlugin(Star):
 
             # 检查重复签到
             if user_data["last_checkin"] == today:
-                yield event.plain_result("⚠️ 今日已签到，请勿重复操作")
+                yield event.plain_result("⚠️ 今日已签订契约，请勿重复操作")
                 return
 
             # 计算连续签到
@@ -161,15 +161,14 @@ class CheckInPlugin(Star):
             selected_msg = random.choice(MOTIVATIONAL_MESSAGES)
             yield event.plain_result(
                 f"✨【契约成立】\n"
-                f"📅 连续签到: {user_data['continuous_days']}天\n"
+                f"📅 连续签订契约: {user_data['continuous_days']}天\n"
                 f"🎁 获得星之碎片: {rewards}个\n"
-                f"💬 契约寄语: {selected_msg}"
+                f"💬 契约签订寄语: {selected_msg}"
             )
 
         except Exception as e:
             logger.error(f"签到处理异常: {str(e)}", exc_info=True)
-            yield event.plain_result("🔧 签到服务暂时不可用，请联系管理员")
-
+            yield event.plain_result("🔧 契约服务暂时不可用，请联系管理员")
 
     def _get_rank(self, event: AstrMessageEvent, key: str) -> list:
         """获取当前上下文的排行榜"""
@@ -217,7 +216,7 @@ class CheckInPlugin(Star):
     async def total_days_rank(self, event: AstrMessageEvent):
         """总天数排行榜"""
         ranked = self._get_rank(event, "total_days")
-        msg = ["🏆 累计签到天数榜"] + [
+        msg = ["🏆 累计契约天数榜"] + [
             f"{i+1}. 用户 {uid[-4:]} - {data['total_days']}天"
             for i, (uid, data) in enumerate(ranked)
         ]
@@ -227,7 +226,7 @@ class CheckInPlugin(Star):
     async def month_days_rank(self, event: AstrMessageEvent):
         """月天数排行榜"""
         ranked = self._get_rank(event, "month_days")
-        msg = ["🏆 本月签到天数榜"] + [
+        msg = ["🏆 本月契约天数榜"] + [
             f"{i+1}. 用户 {uid[-4:]} - {data['month_days']}天"
             for i, (uid, data) in enumerate(ranked)
         ]
@@ -246,7 +245,7 @@ class CheckInPlugin(Star):
             reverse=True
         )[:10]
 
-        msg = ["🏆 今日签到榜"] + [
+        msg = ["🏆 今日契约榜"] + [
             f"{i+1}. 用户 {uid[-4:]} - 连续 {data['continuous_days']}天"
             for i, (uid, data) in enumerate(ranked)
         ]
